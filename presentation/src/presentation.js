@@ -38,15 +38,24 @@ export default () => (
         A specification
       </Heading>
       <Notes>
-        The spec determines the validity of the schema on the API server. The schema determines the validity of client
-        calls
+        <ul>
+          <li>The Spec determines the validity of the schema on the API server.</li>
+          <li>The schema determines the validity of client calls</li>
+          <li>
+            It describes the complete set of possible data (objects, fields, relationships, everything) that a client
+            can access.
+          </li>
+          <li>It covers the query language [ie. clients] but also defines the behavior of a GraphQL server</li>
+        </ul>
       </Notes>
     </Slide>
     <Slide transition={["fade"]} bgColor="tertiary">
       <Heading size={6} textColor="primary" caps padding="0 0 20px 0">
-        Stronly typed
+        Strongly typed
       </Heading>
+      <Notes>validate before execution and guarantees about response shape</Notes>
       <CodePane
+        textSize={20}
         lang="javascript"
         source={`
         type Driver {
@@ -57,7 +66,14 @@ export default () => (
         }
         `}
       />
-      <Notes>The schema defines an API's type system and all object relationships.</Notes>
+      <Notes>
+        <ul>
+          <li>The schema defines an API's type system and all object relationships</li>
+          <li>[] for list</li>
+          <li>! for non null</li>
+          <li>Also Enum type, Union type</li>
+        </ul>
+      </Notes>
     </Slide>
     <Slide transition={["fade"]} bgColor="tertiary">
       <Heading size={6} textColor="primary" caps padding="0 0 20px 0">
@@ -70,6 +86,7 @@ export default () => (
         Hierarchical
       </Heading>
       <CodePane
+        textSize={20}
         lang="javascript"
         source={`
         {
@@ -124,13 +141,12 @@ export default () => (
       <Heading size={6} textColor="primary" caps padding="0 0 20px 0">
         No more client specific endpoints
       </Heading>
-      <Notes>Each view queries exactly what it needs to display</Notes>
-    </Slide>
-    <Slide transition={["fade"]} bgColor="tertiary">
-      <Heading size={6} textColor="primary" caps padding="0 0 20px 0">
-        Built in documentation
-      </Heading>
-      <Notes>Each view queries exactly what it needs to display</Notes>
+      <Notes>
+        <ul>
+          <li>Each view queries exactly what it needs to display</li>
+          <li>avoids over and under fetching; great for mobile clients</li>
+        </ul>
+      </Notes>
     </Slide>
     <Slide transition={["fade"]} bgColor="tertiary">
       <Heading size={6} textColor="primary" caps padding="0 0 20px 0">
@@ -142,6 +158,7 @@ export default () => (
         Query
       </Heading>
       <CodePane
+        textSize={20}
         lang="javascript"
         source={`
         query CarDetail($id: Int!) {
@@ -163,6 +180,7 @@ export default () => (
           <li>operation name</li>
           <li>variable definitions</li>
           <li>fields</li>
+          <li>you can have multiple queries in the same document</li>
         </ul>
       </Notes>
     </Slide>
@@ -171,6 +189,7 @@ export default () => (
         Mutation
       </Heading>
       <CodePane
+        textSize={20}
         lang="javascript"
         source={`
         mutation AddCarMutation($car: CarInput!) {
@@ -191,6 +210,7 @@ export default () => (
         Sharing code: Fragments
       </Heading>
       <CodePane
+        textSize={20}
         lang="javascript"
         source={`
         fragment CarFragment on Car {
@@ -216,6 +236,7 @@ export default () => (
         Directives
       </Heading>
       <CodePane
+        textSize={20}
         lang="javascript"
         source={`
         query CarDetail($id: Int!, $withDrivers: Boolean!) {
@@ -238,6 +259,31 @@ export default () => (
       <Heading size={6} textColor="primary" caps padding="0 0 20px 0">
         On the Server: Schema + Resolvers
       </Heading>
+      <CodePane
+        textSize={20}
+        lang="javascript"
+        source={`
+        {
+            Query: {
+                cars: () => db.getCars(),
+                drivers: () => db.getDrivers()
+            },
+            ...
+        }`}
+      />
+      <Notes>
+        <ul>
+          <li>Schema defines the types of the fields and relationships between objects</li>
+          <li>
+            Resolvers is just a map of the field names as keys to a function that graphql will automatically call (based
+            on what the client requested )to get the data
+          </li>
+          <li>
+            GraphQL resolve functions can contain arbitrary code, so they can produce the result by doing some
+            computation, querying the DB, calling an internal/external API
+          </li>
+        </ul>
+      </Notes>
     </Slide>
     <Slide transition={["fade"]} bgColor="tertiary">
       <Heading size={6} textColor="primary" caps padding="0 0 20px 0">
@@ -247,10 +293,43 @@ export default () => (
     </Slide>
     <Slide transition={["fade"]} bgColor="tertiary">
       <Heading size={6} textColor="primary" padding="0 0 20px 0">
+        Vanilla
+      </Heading>
+      <CodePane
+        textSize={20}
+        lang="javascript"
+        source={`
+        fetch('/graphql', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                query: '{ cars { name } }'
+            })
+        })
+        .then(res => res.json())
+        .then(res => console.log(res.data));
+        `}
+      />
+      <Notes>
+        <ul>
+          <li>
+            fetch and update data in a declarative manner - just write the query and you're done, no need to worry about
+            constructing request & handling response
+          </li>
+          <li>
+            tight coupling of views and their data dependencies eliminates mental overhead of where/how data gets into
+            the UI and what data is required for this UI.
+          </li>
+        </ul>
+      </Notes>
+    </Slide>
+    <Slide transition={["fade"]} bgColor="tertiary">
+      <Heading size={6} textColor="primary" padding="0 0 20px 0">
         Powerful clients
       </Heading>
       <Notes>
         <ul>
+          <li>Not mandatory</li>
           <li>Relay</li>
           <li>Apollo</li>
         </ul>
@@ -303,7 +382,34 @@ export default () => (
           <li>Caching</li>
           <li>Data Loader</li>
           <li>Error handling</li>
-          <li>Query complexity</li>
+          <li>Query complexity (query cost analysis)</li>
+        </ul>
+        <a>https://blog.acolyer.org/2018/05/21/semantics-and-complexity-of-graphql/</a>
+      </Notes>
+    </Slide>
+    <Slide transition={["fade"]} bgColor="tertiary">
+      <Heading size={6} textColor="primary" caps>
+        DataLoader
+      </Heading>
+      <Notes>
+        <ul>
+          <li>https://github.com/facebook/dataloader</li>
+          <li>Batching</li>
+          <li>Caching</li>
+        </ul>
+      </Notes>
+    </Slide>
+    <Slide transition={["fade"]} bgColor="tertiary">
+      <Heading size={6} textColor="primary" caps>
+        Error handling
+      </Heading>
+      <Notes>
+        <ul>
+          <li>something went wrong on the server</li>
+          <li>type mismatch</li>
+          <li>non nullable is null</li>
+          <li>application logic</li>
+          <li>Use of Errorable type or framework feature</li>
         </ul>
       </Notes>
     </Slide>

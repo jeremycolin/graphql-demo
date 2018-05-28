@@ -17,7 +17,10 @@ const driverEmoji = name => {
 };
 
 export default ({ driver }) => (
-  <div className="DriverCard" style={driver.firstname ? { boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)" } : undefined}>
+  <div
+    className="DriverCard"
+    style={driver.firstname ? { boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)", minWidth: 352 } : undefined}
+  >
     <span className="DriverCard-emoji">{driverEmoji(driver.lastname)}</span>
     {!!driver.firstname && <span className="DriverCard-name">{driver.firstname}</span>}
     {!!driver.cars && driver.cars.map(car => <CarCard key={car.id} car={car} />)}

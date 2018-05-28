@@ -28,6 +28,7 @@ const typeDefs = `
 
     input DriverInput {
       firstname: String!
+      lastname: String
       cars: [ID!]!
     }
 
