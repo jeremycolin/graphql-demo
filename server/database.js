@@ -1,4 +1,4 @@
-const TIMEOUT = 1000;
+const TIMEOUT = 1500;
 
 let carIds = 0;
 let driverIds = 0;

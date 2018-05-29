@@ -50,7 +50,7 @@ const resolvers = {
   },
 
   Car: {
-    // brand: car => car.brand, // This is the default resolver, it is not needed
+    brand: car => car.brand.toLowerCase(), // This is the default resolver, it is not needed
     drivers: car => db.getDriversDetails(car.drivers)
   },
 

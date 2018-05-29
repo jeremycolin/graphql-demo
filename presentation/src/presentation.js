@@ -409,7 +409,7 @@ export default () => (
           <li>type mismatch</li>
           <li>non nullable is null</li>
           <li>application logic</li>
-          <li>Use of Errorable type or framework feature</li>
+          <li>use of Errorable type or framework feature</li>
         </ul>
       </Notes>
     </Slide>
