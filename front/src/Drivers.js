@@ -6,6 +6,7 @@ import { carsQuery } from "./Cars";
 import CarSelect from "./CarSelect";
 
 const updateCache = (cache, { data: { add_driver } }) => {
+  console.log("update cache");
   const { drivers } = cache.readQuery({ query: driversQuery });
   cache.writeQuery({
     query: driversQuery,
@@ -29,16 +30,17 @@ const updateCache = (cache, { data: { add_driver } }) => {
   });
 };
 
-const optimisticResponse = data => ({
-  __typename: "Mutation",
-  add_driver: {
-    id: "new driver",
-    firstname: data.driver.firstname,
-    lastname: null,
-    cars: [],
-    __typename: "Driver"
-  }
-});
+const optimisticResponse = data =>
+  console.log("opti") || {
+    __typename: "Mutation",
+    add_driver: {
+      id: "new driver",
+      firstname: data.driver.firstname,
+      lastname: null,
+      cars: [],
+      __typename: "Driver"
+    }
+  };
 
 const driverFragment = gql`
   fragment Driver on Driver {
@@ -77,6 +79,7 @@ export default () => {
     <React.Fragment>
       <Query query={driversQuery}>
         {({ loading, error, data }) => {
+          console.log("data now: ", data);
           if (loading) return "Loading...";
           if (error) return `Error: ${error}`;
           return (
@@ -100,12 +103,18 @@ export default () => {
                           car = event.target.value;
                         }}
                       />
-                      <button type="submit">🏁</button>
+                      <button type="submit">
+                        <span role="img" aria-label="race-finish-flag">
+                          🏁
+                        </span>
+                      </button>
                     </form>
                   </div>
                 )}
               </Mutation>
-              {data.drivers.map(driver => <DriverCard key={driver.id} driver={driver} />)}
+              {(data.drivers || []).map(driver => (
+                <DriverCard key={driver.id} driver={driver} />
+              ))}
             </React.Fragment>
           );
         }}
