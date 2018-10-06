@@ -1,19 +1,30 @@
-const DELAY = 100; // network and processing in ms
+import { join } from "path";
+
+declare var __dirname: any;
+
+const DELAY = 0; // network and processing in ms
 
 const PRODUCTS = [
   {
     id: "0",
-    name: "black t-shirt",
+    name: "brown leather jacket",
     brand: "Zal",
-    price: 10.5,
-    image: ""
+    price: 42,
+    image: "assets/product-1.png"
   },
   {
     id: "1",
-    name: "white t-shirt",
+    name: "black leather jacket",
     brand: "Zal",
-    price: 20.5,
-    image: ""
+    price: 66,
+    image: "assets/product-2.png"
+  },
+  {
+    id: "2",
+    name: "black winter coat",
+    brand: "Zal",
+    price: 98,
+    image: "assets/product-3.png"
   }
 ];
 
