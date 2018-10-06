@@ -17,30 +17,41 @@ const PRODUCTS = [
     name: "black leather jacket",
     brand: "Zal",
     price: 66,
-    image: "assets/product-2.png"
+    image: "assets/product-2.png",
+    recommendations: [
+      {
+        id: "0",
+        typename: "Product"
+      }
+    ]
   },
   {
     id: "2",
     name: "black winter coat",
     brand: "Zal",
     price: 98,
-    image: "assets/product-3.png"
+    image: "assets/product-3.png",
+    recommendations: [
+      {
+        id: "0",
+        typename: "Outfit"
+      },
+      {
+        id: "1",
+        typename: "Outfit"
+      }
+    ]
   }
 ];
-
-interface Outfits {
-  id: string;
-  products: Array<string>;
-}
 
 const OUTFITS = [
   {
     id: "0",
-    products: ["0", "1"]
+    image: "assets/outfit-1.png"
   },
   {
     id: "1",
-    products: []
+    image: "assets/outfit-2.png"
   }
 ];
 

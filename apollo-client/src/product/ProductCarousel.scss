@@ -1,5 +1,12 @@
+.ProductView {
+  width: 100%;
+}
+
 .ProductCarousel {
   display: flex;
-  width: 100%;
   justify-content: space-around;
+}
+
+.ProductRecommendations {
+  margin: 20px;
 }

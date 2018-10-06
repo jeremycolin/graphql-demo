@@ -6,7 +6,12 @@ interface Product {
   brand: String;
   price: number;
   image: string;
-  recommendation?: Array<any>;
+  recommendations?: Array<any>;
+}
+
+interface Recommendation {
+  id: string;
+  typename: "Product" | "Outfit";
 }
 
 export const typeDefs = `
@@ -21,8 +26,7 @@ export const typeDefs = `
 
     type Outfit {
       id: ID!
-      products: [Product]!
-      recommendations: [Recommendation]
+      image: String!
     }
 
     union Recommendation = Product | Outfit
@@ -72,12 +76,24 @@ export const resolvers = {
     products: ({ products }: { products: Array<string> }) => products.map(productId => db.getProduct(productId))
   },
 
-  Outfit: {
-    products: ({ products }: { products: Array<string> }) => products.map(productId => db.getProduct(productId))
-  },
-
   Product: {
     name: (product: Product) => product.name, // this is the default resolver
-    brand: (product: Product) => product.brand.toUpperCase()
+    brand: (product: Product) => product.brand.toUpperCase(),
+    recommendations: ({ recommendations }: { recommendations: Array<Recommendation> }) =>
+      recommendations
+        ? recommendations.map(recommendation => {
+            if (recommendation.typename === "Product") return db.getProduct(recommendation.id);
+            if (recommendation.typename === "Outfit") return db.getOutfit(recommendation.id);
+          })
+        : null
+  },
+
+  Recommendation: {
+    __resolveType(obj: { name: string }) {
+      if (obj.name) {
+        return "Product";
+      }
+      return "Outfit";
+    }
   }
 };

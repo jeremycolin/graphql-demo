@@ -12,18 +12,50 @@ const productsQuery = gql`
       brand
       price
       image
+      recommendations {
+        ... on Outfit {
+          id
+          image
+        }
+        ... on Product {
+          id
+          name
+          image
+        }
+      }
     }
   }
 `;
 
 export default () => (
-  <div className="ProductCarousel">
+  <div className="ProductView">
     <Query query={productsQuery}>
       {({ loading, error, data }) => {
         if (loading || error) return "";
-        console.log(data.products);
-        return data.products.map(product => <ProductCard key={product.id} {...product} />);
+        return (
+          <div className="ProductCarousel">
+            {data.products.map(product => (
+              <div key={product.id}>
+                <ProductCard {...product} />
+                <ProductRecommendation recommendations={product.recommendations} />
+              </div>
+            ))}
+          </div>
+        );
       }}
     </Query>
   </div>
 );
+
+const ProductRecommendation = ({ recommendations }) => {
+  if (!recommendations) return null;
+  return recommendations.map(productRecommendation => (
+    <img
+      height={80}
+      width={80}
+      key={productRecommendation.id}
+      className="ProductRecommendations"
+      src={productRecommendation.image}
+    />
+  ));
+};
