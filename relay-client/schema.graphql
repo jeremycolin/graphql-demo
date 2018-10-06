@@ -1,0 +1,39 @@
+type Product {
+  id: ID!
+  name: String!
+  brand: String!
+  price: Float!
+  image: String!
+  recommendations: [Recommendation]
+}
+
+type Outfit {
+  id: ID!
+  image: String!
+}
+
+union Recommendation = Product | Outfit
+
+type Cart {
+  products: [Product]!
+}
+
+type User {
+  id: ID!
+  name: String!
+}
+
+type Query {
+  product(id: ID!): Product
+  products: [Product]!
+  outfit(id: ID!): Outfit
+  outfits: [Outfit]!
+  cart: Cart
+  user: User
+}
+
+type Mutation {
+  add_to_cart(productId: ID!): Cart
+  remove_from_cart(productId: ID!): Cart
+  change_name(name: String!): User
+}

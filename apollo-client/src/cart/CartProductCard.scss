@@ -1,0 +1,30 @@
+.CartProductCard {
+  height: 80px;
+  width: 220px;
+  cursor: pointer;
+  display: flex;
+  margin-right: 20px;
+  font-size: 12px;
+  box-shadow: 1px 1px 2px 1px #ccc;
+
+  &:hover {
+    box-shadow: 2px 2px 4px 2px #ccc;
+  }
+
+  &-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px;
+  }
+
+  &-labels {
+    &-brand {
+    }
+  }
+
+  &-price {
+    font-weight: bold;
+    font-size: 14px;
+  }
+}

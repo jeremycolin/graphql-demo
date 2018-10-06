@@ -1,0 +1,37 @@
+.ProductCard {
+  height: 380px;
+  width: 300px;
+  cursor: pointer;
+  box-shadow: 1px 1px 3px 1px #ccc;
+
+  &:hover {
+    box-shadow: 3px 3px 5px 3px #ccc;
+  }
+
+  &-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    width: 100%;
+    padding: 20px;
+  }
+
+  &-labels {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    &-brand {
+      margin-bottom: 10px;
+    }
+  }
+
+  &-price {
+    height: 100%;
+    font-weight: bold;
+    display: flex;
+    align-items: flex-end;
+  }
+}

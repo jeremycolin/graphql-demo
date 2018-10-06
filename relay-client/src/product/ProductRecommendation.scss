@@ -1,0 +1,11 @@
+.ProductRecommendation {
+  margin: 20px;
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+
+  &-brand {
+    display: flex;
+    justify-content: center;
+  }
+}
