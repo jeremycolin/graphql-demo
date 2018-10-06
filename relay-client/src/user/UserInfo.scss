@@ -1,0 +1,19 @@
+.UserInfo {
+  position: absolute;
+  top: 16px;
+  font-size: 20px;
+  right: 20px;
+  color: white;
+
+  input {
+    position: relative;
+    top: -4px;
+    height: 30px;
+    font-size: 20px;
+  }
+
+  &-edit {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+}

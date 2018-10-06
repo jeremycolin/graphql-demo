@@ -2,6 +2,8 @@ import React from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import ProductCard from "./ProductCard";
+import ProductRecommendation from "./ProductRecommendation";
+import OutfitRecommendation from "./OutfitRecommendation";
 import "./ProductCarousel.scss";
 
 const productsQuery = gql`
@@ -13,13 +15,14 @@ const productsQuery = gql`
       price
       image
       recommendations {
+        __typename
         ... on Outfit {
           id
           image
         }
         ... on Product {
           id
-          name
+          brand
           image
         }
       }
@@ -37,7 +40,14 @@ export default () => (
             {data.products.map(product => (
               <div key={product.id}>
                 <ProductCard {...product} />
-                <ProductRecommendation recommendations={product.recommendations} />
+                {(product.recommendations || []).map(
+                  recommendation =>
+                    recommendation.__typename === "Product" ? (
+                      <ProductRecommendation key={recommendation.id} product={recommendation} />
+                    ) : (
+                      <OutfitRecommendation key={recommendation.id} outfit={recommendation} />
+                    )
+                )}
               </div>
             ))}
           </div>
@@ -46,16 +56,3 @@ export default () => (
     </Query>
   </div>
 );
-
-const ProductRecommendation = ({ recommendations }) => {
-  if (!recommendations) return null;
-  return recommendations.map(productRecommendation => (
-    <img
-      height={80}
-      width={80}
-      key={productRecommendation.id}
-      className="ProductRecommendations"
-      src={productRecommendation.image}
-    />
-  ));
-};

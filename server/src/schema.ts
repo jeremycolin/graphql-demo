@@ -89,11 +89,11 @@ export const resolvers = {
   },
 
   Recommendation: {
-    __resolveType(obj: { name: string }) {
-      if (obj.name) {
-        return "Product";
-      }
-      return "Outfit";
+    __resolveType(obj: { id: string }) {
+      // you can also filter based on different fields
+      if (obj.id.includes("product")) return "Product";
+      if (obj.id.includes("outfit")) return "Outfit";
+      return null;
     }
   }
 };

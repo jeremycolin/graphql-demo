@@ -17,7 +17,7 @@ export default () => (
     <Query query={userQuery}>
       {({ loading, error, data }) => {
         if (loading || error) return "";
-        return <User name={data.user.name} />;
+        return <User {...data.user} />;
       }}
     </Query>
   </div>
@@ -46,7 +46,10 @@ class User extends React.Component {
 
   render() {
     return (
-      <Mutation mutation={userNameMutation}>
+      <Mutation
+        mutation={userNameMutation}
+        /* optimisticResponse={{ change_name: { __typename: "User", id: this.props.id, name: this.state.name } }} */
+      >
         {updateName =>
           this.state.edit ? (
             <input value={this.state.name} onBlur={this.handleBlur(updateName)} onChange={this.handleChange} />

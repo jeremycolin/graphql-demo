@@ -1,43 +1,39 @@
-import { join } from "path";
-
-declare var __dirname: any;
-
-const DELAY = 0; // network and processing in ms
+const DELAY = 100; // network and processing in ms
 
 const PRODUCTS = [
   {
-    id: "0",
+    id: "product::0",
     name: "brown leather jacket",
     brand: "Zal",
     price: 42,
     image: "assets/product-1.png"
   },
   {
-    id: "1",
+    id: "product::1",
     name: "black leather jacket",
     brand: "Zal",
     price: 66,
     image: "assets/product-2.png",
     recommendations: [
       {
-        id: "0",
+        id: "product::0",
         typename: "Product"
       }
     ]
   },
   {
-    id: "2",
+    id: "product::2",
     name: "black winter coat",
     brand: "Zal",
     price: 98,
     image: "assets/product-3.png",
     recommendations: [
       {
-        id: "0",
+        id: "outfit::0",
         typename: "Outfit"
       },
       {
-        id: "1",
+        id: "outfit::1",
         typename: "Outfit"
       }
     ]
@@ -46,11 +42,11 @@ const PRODUCTS = [
 
 const OUTFITS = [
   {
-    id: "0",
+    id: "outfit::0",
     image: "assets/outfit-1.png"
   },
   {
-    id: "1",
+    id: "outfit::1",
     image: "assets/outfit-2.png"
   }
 ];

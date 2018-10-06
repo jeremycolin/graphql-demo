@@ -10,7 +10,6 @@ export default () => (
       {({ loading, error, data }) => {
         if (loading) return "";
         if (error) return "Unable to retrieve your cart :(";
-        console.log(data.cart.products);
         return data.cart.products.map(product => <CartProductCard key={product.id} {...product} />);
       }}
     </Query>
