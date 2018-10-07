@@ -1,5 +1,5 @@
 ## [Spectacle](https://github.com/FormidableLabs/spectacle) Presentation
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app)
 
-`yarn start`
+`yarn && yarn start`
