@@ -1,8 +1,7 @@
 .ProductRecommendation {
   margin: 20px;
   width: 80px;
-  display: flex;
-  flex-direction: column;
+  display: inline-block;
 
   &-brand {
     display: flex;

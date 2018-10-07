@@ -16,8 +16,7 @@ const PRODUCTS = [
     image: "assets/product-2.png",
     recommendations: [
       {
-        id: "product::0",
-        typename: "Product"
+        id: "outfit::1"
       }
     ]
   },
@@ -29,12 +28,10 @@ const PRODUCTS = [
     image: "assets/product-3.png",
     recommendations: [
       {
-        id: "outfit::0",
-        typename: "Outfit"
+        id: "product::1"
       },
       {
-        id: "outfit::1",
-        typename: "Outfit"
+        id: "outfit::0"
       }
     ]
   }

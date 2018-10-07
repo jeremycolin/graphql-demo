@@ -58,9 +58,9 @@ export const typeDefs = `
 
 export const resolvers = {
   Query: {
-    product: (_: undefined, productId: string) => db.getProduct(productId),
+    product: (_: undefined, { id }: { id: string }) => db.getProduct(id),
     products: () => db.getProducts(),
-    outfit: (_: undefined, outfitId: string) => db.getOutfit(outfitId),
+    outfit: (_: undefined, { id }: { id: string }) => db.getOutfit(id),
     outfits: () => db.getOutfits(),
     cart: () => db.getCart(),
     user: () => db.getUser()
@@ -82,8 +82,8 @@ export const resolvers = {
     recommendations: ({ recommendations }: { recommendations: Array<Recommendation> }) =>
       recommendations
         ? recommendations.map(recommendation => {
-            if (recommendation.typename === "Product") return db.getProduct(recommendation.id);
-            if (recommendation.typename === "Outfit") return db.getOutfit(recommendation.id);
+            if (recommendation.id.includes("product")) return db.getProduct(recommendation.id);
+            if (recommendation.id.includes("outfit")) return db.getOutfit(recommendation.id);
           })
         : null
   },

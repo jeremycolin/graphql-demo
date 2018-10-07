@@ -58,17 +58,18 @@ export default () => (
         textSize={20}
         lang="javascript"
         source={`
-        type Driver {
+        type Product {
             id: ID!
-            firstname: String!
-            lastname: String
-            cars: [Car]!
+            name: String!
+            brand: String!
+            price: Float!
+            image: String!
         }
         `}
       />
       <Notes>
         <ul>
-          <li>The schema defines an API's type system and all object relationships</li>
+          <li>The schema defines the full API type system and all object relationships</li>
           <li>[] for list</li>
           <li>! for non null</li>
           <li>Also Enum type, Union type</li>
@@ -79,7 +80,7 @@ export default () => (
       <Heading size={6} textColor="primary" caps padding="0 0 20px 0">
         Introspective
       </Heading>
-      <Notes>A client can query the schema for details about the schema.</Notes>
+      <Notes>A client can query the server for details about the schema.</Notes>
     </Slide>
     <Slide transition={["fade"]} bgColor="tertiary">
       <Heading size={6} textColor="primary" caps padding="0 0 20px 0">
@@ -90,20 +91,20 @@ export default () => (
         lang="javascript"
         source={`
         {
-            cars {
-                id
-                name
-                brand
-                drivers {
+            cart {
+                products {
                     id
-                    lastname
+                    brand
+                    name
+                    price
+                    image
                 }
             }
         }
       `}
       />
       <Notes>
-        The shape of a GraphQL call mirrors the shape of the JSON data it returns. Nested fields let you query for and
+        The shape of a GraphQL call mirrors the shape of the JSON data it returns. Nested fields let you query and
         receive only the data you specify in a single round trip.
       </Notes>
     </Slide>
@@ -161,14 +162,13 @@ export default () => (
         textSize={20}
         lang="javascript"
         source={`
-        query CarDetail($id: Int!) {
-            car(id: $id) {
+        query ProductDetail($id: ID!) {
+            product(id: $id) {
                 id
                 name
                 brand
-                drivers {
-                    firstname
-                }
+                price
+                image
             }
         }
        `}
@@ -192,16 +192,17 @@ export default () => (
         textSize={20}
         lang="javascript"
         source={`
-        mutation AddCarMutation($car: CarInput!) {
-            add_car(car: $car) {
-                id
-                name
-                brand
-                drivers {
-                    firstname
+        mutation AddToCart($productId: ID!) {
+            add_to_cart(productId: $productId) {
+                products {
+                    id
+                    name
+                    brand
+                    price
+                    image
                 }
             }
-        }
+        }        
        `}
       />
     </Slide>
@@ -213,23 +214,22 @@ export default () => (
         textSize={20}
         lang="javascript"
         source={`
-        fragment CarFragment on Car {
-            id
+        fragment ProductFragment on Product {
             name
             brand
-            drivers {
-                firstname
-            }
+            price
+            image
         }
-
-
+        
         query {
-            car {
-                ...CarFragment
+            products {
+                id
+                ...ProductFragment
             }
-        }
+        }        
        `}
       />
+      <Notes>Fragments enable more than that: view composition, data masking, etc</Notes>
     </Slide>
     <Slide transition={["fade"]} bgColor="tertiary">
       <Heading size={6} textColor="primary" caps padding="0 0 20px 0">
@@ -239,16 +239,18 @@ export default () => (
         textSize={20}
         lang="javascript"
         source={`
-        query CarDetail($id: Int!, $withDrivers: Boolean!) {
-            car(id: $id) {
+        query ProductDetail($id: ID!, $withRecommendations: Boolean!) {
+            product(id: $id) {
                 id
                 name
                 brand
-                drivers @include(if: $withDrivers){
-                    firstname
+                image
+                recommendations @include(if: $withRecommendations) {
+                    __typename
                 }
             }
         }
+        
        `}
       />
       <Notes>
@@ -264,16 +266,19 @@ export default () => (
         lang="javascript"
         source={`
         {
-            Query: {
-                cars: () => db.getCars(),
-                drivers: () => db.getDrivers()
-            },
-            ...
+          Query: {
+            product: (_, { id }) => db.getProduct(id),
+            products: () => db.getProducts(),
+          },
+        
+          Mutation: {
+            add_to_cart: (_, { productId }) => db.addToCart(productId),
+          },
         }`}
       />
       <Notes>
         <ul>
-          <li>Schema defines the types of the fields and relationships between objects</li>
+          <li>The schema defines the types of the fields and relationships between objects</li>
           <li>
             Resolvers is just a map of the field names as keys to a function that graphql will automatically call (based
             on what the client requested )to get the data
@@ -289,7 +294,11 @@ export default () => (
       <Heading size={6} textColor="primary" caps padding="0 0 20px 0">
         So what's cool about it?
       </Heading>
-      <Notes>Typed contract</Notes>
+    </Slide>
+    <Slide transition={["fade"]} bgColor="tertiary">
+      <Heading size={6} textColor="primary" caps padding="0 0 20px 0">
+        Typed contract
+      </Heading>
     </Slide>
     <Slide transition={["fade"]} bgColor="tertiary">
       <Heading size={6} textColor="primary" padding="0 0 20px 0">
@@ -303,7 +312,7 @@ export default () => (
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
-                query: '{ cars { name } }'
+                query: '{ products { id name brand price } }'
             })
         })
         .then(res => res.json())
