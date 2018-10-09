@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash a8f933a3b16215c8f91a81de02ca20ca
+ * @relayHash c228fc369eb99641a3bccaa4aa4ac6a9
  */
 
 /* eslint-disable */
@@ -58,19 +58,15 @@ fragment ProductCard_product on Product {
   image
 }
 
-fragment ProductRecommendation_product on Recommendation {
-  ... on Product {
-    id
-    brand
-    image
-  }
+fragment ProductRecommendation_product on Product {
+  id
+  brand
+  image
 }
 
-fragment OutfitRecommendation_outfit on Recommendation {
-  ... on Outfit {
-    id
-    image
-  }
+fragment OutfitRecommendation_outfit on Outfit {
+  id
+  image
 }
 */
 
@@ -111,7 +107,7 @@ return {
   "operationKind": "query",
   "name": "ProductCarouselQuery",
   "id": null,
-  "text": "query ProductCarouselQuery {\n  products {\n    id\n    ...ProductCard_product\n    recommendations {\n      __typename\n      ... on Outfit {\n        id\n      }\n      ... on Product {\n        id\n      }\n      ...ProductRecommendation_product\n      ...OutfitRecommendation_outfit\n    }\n  }\n}\n\nfragment ProductCard_product on Product {\n  id\n  name\n  brand\n  price\n  image\n}\n\nfragment ProductRecommendation_product on Recommendation {\n  ... on Product {\n    id\n    brand\n    image\n  }\n}\n\nfragment OutfitRecommendation_outfit on Recommendation {\n  ... on Outfit {\n    id\n    image\n  }\n}\n",
+  "text": "query ProductCarouselQuery {\n  products {\n    id\n    ...ProductCard_product\n    recommendations {\n      __typename\n      ... on Outfit {\n        id\n      }\n      ... on Product {\n        id\n      }\n      ...ProductRecommendation_product\n      ...OutfitRecommendation_outfit\n    }\n  }\n}\n\nfragment ProductCard_product on Product {\n  id\n  name\n  brand\n  price\n  image\n}\n\nfragment ProductRecommendation_product on Product {\n  id\n  brand\n  image\n}\n\nfragment OutfitRecommendation_outfit on Outfit {\n  id\n  image\n}\n",
   "metadata": {},
   "fragment": {
     "kind": "Fragment",

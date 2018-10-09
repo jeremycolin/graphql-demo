@@ -17,11 +17,9 @@ const OutfitRecommendation = ({ outfit }) => (
 export default createFragmentContainer(
   OutfitRecommendation,
   graphql`
-    fragment OutfitRecommendation_outfit on Recommendation {
-      ... on Outfit {
-        id
-        image
-      }
+    fragment OutfitRecommendation_outfit on Outfit {
+      id
+      image
     }
   `
 );

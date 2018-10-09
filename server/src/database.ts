@@ -1,4 +1,4 @@
-const DELAY = 100; // network and processing in ms
+const DELAY = 0; // network and processing in ms
 
 const PRODUCTS = [
   {

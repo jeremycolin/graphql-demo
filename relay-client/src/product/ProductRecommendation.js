@@ -13,12 +13,10 @@ const ProductRecommendation = ({ product }) => (
 export default createFragmentContainer(
   ProductRecommendation,
   graphql`
-    fragment ProductRecommendation_product on Recommendation {
-      ... on Product {
-        id
-        brand
-        image
-      }
+    fragment ProductRecommendation_product on Product {
+      id
+      brand
+      image
     }
   `
 );
