@@ -32,6 +32,7 @@ export const typeDefs = `
     union Recommendation = Product | Outfit
 
     type Cart {
+      id: ID!
       products: [Product]!
     }
 
@@ -73,6 +74,7 @@ export const resolvers = {
   },
 
   Cart: {
+    // id: () => "cart",
     products: ({ products }: { products: Array<string> }) => products.map(productId => db.getProduct(productId))
   },
 

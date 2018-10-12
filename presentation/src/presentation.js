@@ -239,18 +239,13 @@ export default () => (
         textSize={20}
         lang="javascript"
         source={`
-        query ProductDetail($id: ID!, $withRecommendations: Boolean!) {
+        query ProductDetail($id: ID!, $withBrand: Boolean!) {
             product(id: $id) {
                 id
                 name
-                brand
-                image
-                recommendations @include(if: $withRecommendations) {
-                    __typename
-                }
+                brand @include(if: $withBrand)
             }
         }
-        
        `}
       />
       <Notes>

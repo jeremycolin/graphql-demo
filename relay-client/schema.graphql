@@ -15,6 +15,7 @@ type Outfit {
 union Recommendation = Product | Outfit
 
 type Cart {
+  # id: ID!
   products: [Product]!
 }
 
